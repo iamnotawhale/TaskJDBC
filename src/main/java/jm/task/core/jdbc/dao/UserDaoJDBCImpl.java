@@ -12,7 +12,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     private Connection connection = getConnection();
     private Statement statement = null;
     private List<User> userList = new LinkedList();
-    private static final String SQL_INSERT = "INSERT INTO usertable (id, name, lastName, age) VALUES (?,?,?,?)";
+    private static final String SQL_INSERT = "INSERT INTO usertable (name, lastName, age) VALUES (?,?,?)";
     private static final String SQL_DELETE = "DELETE FROM usertable WHERE id=?";
     private Long id = 1L;
 
@@ -24,10 +24,11 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         try {
             statement = connection.createStatement();
             String sql = "CREATE TABLE IF NOT EXISTS usertable " +
-                    "(id BIGINT, " +
+                    "(id BIGINT UNSIGNED NOT NULL auto_increment, " +
                     " name VARCHAR(30), " +
                     " lastName VARCHAR(30), " +
-                    " age TINYINT)";
+                    " age TINYINT, " +
+                    " PRIMARY KEY (id))";
 
             statement.executeUpdate(sql);
         } catch (SQLException e) {
@@ -48,10 +49,9 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public void saveUser(String name, String lastName, byte age) {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT);
-            preparedStatement.setLong(1, id++);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, lastName);
-            preparedStatement.setByte(4, age);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
             int rows = preparedStatement.executeUpdate();
             System.out.println("User с именем – " + name + " добавлен в базу данных");
         } catch (SQLException e) {
