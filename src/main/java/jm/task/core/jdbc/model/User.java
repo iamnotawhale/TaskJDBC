@@ -62,6 +62,8 @@ public class User {
 
     @Override
     public String toString() {
-        return "Имя: " + name + ", фамилия: " + lastName + ", возраст: " + age;
+        return getClass().getSimpleName() + " {имя: " + name
+                + ", фамилия: " + lastName
+                + ", возраст: " + age + "}";
     }
 }
