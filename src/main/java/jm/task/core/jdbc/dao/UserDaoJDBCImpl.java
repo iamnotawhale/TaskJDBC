@@ -12,8 +12,8 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     private Connection connection = getConnection();
     private Statement statement = null;
     private List<User> userList = new LinkedList();
-    private static final String SQL_INSERT = "INSERT INTO usertable (name, lastName, age) VALUES (?,?,?)";
-    private static final String SQL_DELETE = "DELETE FROM usertable WHERE id=?";
+    private static final String SQL_INSERT = "INSERT INTO users (name, lastName, age) VALUES (?,?,?)";
+    private static final String SQL_DELETE = "DELETE FROM users WHERE id=?";
     private Long id = 1L;
 
     public UserDaoJDBCImpl() {
@@ -23,7 +23,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public void createUsersTable() {
         try {
             statement = connection.createStatement();
-            String sql = "CREATE TABLE IF NOT EXISTS usertable " +
+            String sql = "CREATE TABLE IF NOT EXISTS users " +
                     "(id BIGINT UNSIGNED NOT NULL auto_increment, " +
                     " name VARCHAR(30), " +
                     " lastName VARCHAR(30), " +
@@ -39,7 +39,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public void dropUsersTable() {
         try {
             statement = connection.createStatement();
-            String sql = "DROP TABLE IF EXISTS usertable ";
+            String sql = "DROP TABLE IF EXISTS users ";
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,7 +73,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         try {
             userList.clear();
             statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT name, lastName, age FROM usertable");
+            ResultSet rs = statement.executeQuery("SELECT name, lastName, age FROM users");
             while (rs.next()) {
                 String name = rs.getString(1);
                 String lastName = rs.getString(2);
@@ -93,7 +93,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
     public void cleanUsersTable() {
         try {
             statement = connection.createStatement();
-            String sql = "TRUNCATE usertable ";
+            String sql = "TRUNCATE users ";
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
